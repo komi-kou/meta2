@@ -1,0 +1,45 @@
+{
+  "meta_access_token": "EAAcUd0aSHKMBPG6f5enFvnu9I2Txcgulz7uHw0INre8ka8q4O0owf42kPnGePZAzPEPKeJbpWWAzulEUKVv6LkdNwiVisDmonyJW7OrU0L9X0Fynzc3X2RcXZBMBjLj7XsjP15G25CjiejDMe6DOXhqsMT4SdeZBwKuEqC202ETupxSmO9CFkHqGrlyIoPD5hp3BjsoCguD8i0F",
+  "meta_account_id": "act_1384276956051351",
+  "account_name": "整足院",
+  "chatwork_api_token": "10e7538af625f74890e0f0bc4747c976",
+  "chatwork_room_id": "412870546",
+  "chatworkRoomId": "412870550",
+  "service_goal": "toc_line",
+  "target_cpa": "1000",
+  "target_cpm": "1000",
+  "target_ctr": "1",
+  "target_cv": "10",
+  "target_cvr": "",
+  "target_budget_rate": "80",
+  "target_daily_budget": "50000",
+  "target_roas": "",
+  "enable_scheduler": true,
+  "schedule_hours": [
+    9,
+    12,
+    15,
+    17,
+    19
+  ],
+  "enable_chatwork": true,
+  "enable_alerts": true,
+  "daily_report_enabled": true,
+  "update_notifications_enabled": true,
+  "alert_notifications_enabled": true,
+  "additional_accounts": [
+    {
+      "id": "act_409375025604424",
+      "name": "Account",
+      "token": "EAAcUd0aSHKMBPG6f5enFvnu9I2Txcgulz7uHw0INre8ka8q4O0owf42kPnGePZAzPEPKeJbpWWAzulEUKVv6LkdNwiVisDmonyJW7OrU0L9X0Fynzc3X2RcXZBMBjLj7XsjP15G25CjiejDMe6DOXhqsMT4SdeZBwKuEqC202ETupxSmO9CFkHqGrlyIoPD5hp3BjsoCguD8i0F",
+      "chatworkRoomId": null,
+      "serviceGoal": "toC_phone",
+      "targetCPA": "3000",
+      "targetCPM": "1200",
+      "targetCTR": "2",
+      "targetCV": "1",
+      "dailyBudget": "1500",
+      "budgetRate": "80"
+    }
+  ]
+}

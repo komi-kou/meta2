@@ -1,0 +1,79 @@
+[
+  {
+    "id": "e292fec3-621b-47e9-9aaf-60ccfdabc07d",
+    "email": "test@example.com",
+    "password_hash": "$2b$12$M0ShBBQq7quFmq0BOkUHuuXgcfmJ6XxoMGjK0FIE7D1Zgr/rSHYhW",
+    "username": "テストユーザー",
+    "created_at": "2025-07-23T02:39:57.650Z",
+    "last_login": "2025-09-09T15:01:18.286Z",
+    "is_active": true,
+    "login_attempts": 5,
+    "locked_until": "2025-10-11T15:07:54.259Z"
+  },
+  {
+    "id": "b4475ace-303e-4fd1-8740-221154c9b291",
+    "email": "komiya11122@gmail.com",
+    "password_hash": "$2b$12$z//VdmQgKJdxMAFhj09kJe87bnRZOBCW1nSzcg9rlnV2.93QDMm22",
+    "username": "横濱不動産",
+    "created_at": "2025-09-08T17:15:15.114Z",
+    "last_login": "2025-10-18T04:08:49.178Z",
+    "is_active": true,
+    "login_attempts": 0,
+    "locked_until": null
+  },
+  {
+    "id": "8bc1673b-15bf-4399-bccf-07b6ddbe3a88",
+    "email": "testuser2@example.com",
+    "password_hash": "$2b$12$5yW.cTEzhFwkVVTtBPWUkOTUKEwUgkZA/dwdfRLw0oFn98YwMzLsS",
+    "username": "テストユーザー2",
+    "created_at": "2025-09-09T14:39:52.198Z",
+    "last_login": null,
+    "is_active": true,
+    "login_attempts": 1,
+    "locked_until": null
+  },
+  {
+    "id": "efd84e75-3c6b-41d7-b895-27fdeec534fa",
+    "email": "komi19931112@gmail.com",
+    "password_hash": "$2b$12$u.iO7fqeryviukG60IlOEeGOa3fLAitoVjdU/kx75paiKF/Pw.ZQO",
+    "username": "komiya",
+    "created_at": "2025-09-09T14:44:57.855Z",
+    "last_login": null,
+    "is_active": true,
+    "login_attempts": 4,
+    "locked_until": null
+  },
+  {
+    "id": "02d004a8-03aa-4b6e-9dd2-94a1995b4360",
+    "email": "hangpingxiaogong@gmail.com",
+    "password_hash": "$2b$12$g9Jtc0C0bGsMKGXgzJMqkulvtXggmTmLvTXvfX8SbR7Wph42sykli",
+    "username": "整足院",
+    "created_at": "2025-09-26T05:24:04.801Z",
+    "last_login": "2025-09-26T12:27:07.016Z",
+    "is_active": true,
+    "login_attempts": 0,
+    "locked_until": null
+  },
+  {
+    "id": "3dab6ad4-6397-4659-b96e-88a3d59bc85b",
+    "email": "test123@gmail.com",
+    "password_hash": "$2b$12$6HODhT5fXKypFcHgaXRj..LS9KV4xit4bfMivEbDc/3iPk0Y58W/m",
+    "username": "テスト1",
+    "created_at": "2025-10-11T14:03:04.785Z",
+    "last_login": "2025-10-16T14:37:37.922Z",
+    "is_active": true,
+    "login_attempts": 1,
+    "locked_until": null
+  },
+  {
+    "id": "7fe7e401-a67b-40fb-bdff-0b61b67dc116",
+    "email": "metaapi@test.com",
+    "password_hash": "$2b$12$QUWeyfvcIyJmg03/qtTkY.Ec.0Ml..zs7QkcK20BhoZP37fh9FGU2",
+    "username": "MetaAPIテストユーザー",
+    "created_at": "2025-10-11T14:38:22.989Z",
+    "last_login": "2025-10-11T14:50:27.853Z",
+    "is_active": true,
+    "login_attempts": 0,
+    "locked_until": null
+  }
+]
