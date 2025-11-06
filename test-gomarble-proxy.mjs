@@ -9,7 +9,11 @@
 
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { spawn } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const GOMARBLE_API_KEY = process.env.GOMARBLE_API_KEY || '';
 const GOMARBLE_SSE_URL = 'https://gomarble.ai/mcp-api/sse';
@@ -33,47 +37,27 @@ async function testGoMarbleViaProxy() {
   console.log(`   GoMarble Server (${GOMARBLE_SSE_URL})`);
   console.log('');
 
-  let proxyProcess = null;
   let client = null;
 
   try {
     // ========================================
-    // Phase 1: MCPプロキシを起動
+    // Phase 1: プロキシパスを確認
     // ========================================
-    console.log('📍 Phase 1: MCPプロキシを起動');
+    console.log('📍 Phase 1: プロキシパスを確認');
     console.log('-'.repeat(80));
 
-    const proxyPath = '/home/user/meta2/mcp-proxy/server/index.js';
+    // 動的にプロキシパスを取得（Macでも動作する）
+    const proxyPath = path.join(__dirname, 'mcp-proxy', 'server', 'index.js');
 
     console.log(`プロキシパス: ${proxyPath}`);
     console.log(`SSE URL: ${GOMARBLE_SSE_URL}`);
     console.log(`API Key: ${GOMARBLE_API_KEY.substring(0, 8)}...`);
     console.log('');
 
-    proxyProcess = spawn('node', [
-      proxyPath,
-      'GoMarble Facebook Ads',
-      GOMARBLE_SSE_URL,
-      GOMARBLE_API_KEY
-    ]);
-
-    // プロキシのログを表示
-    proxyProcess.stderr.on('data', (data) => {
-      console.log(`[Proxy] ${data.toString().trim()}`);
-    });
-
-    proxyProcess.on('error', (error) => {
-      console.error('❌ プロキシプロセスエラー:', error.message);
-    });
-
-    // プロキシの起動を少し待つ
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     // ========================================
-    // Phase 2: STDIOトランスポートでプロキシに接続
+    // Phase 2: MCPクライアントを作成してプロキシに接続
     // ========================================
-    console.log('');
-    console.log('📍 Phase 2: STDIOトランスポートでプロキシに接続');
+    console.log('📍 Phase 2: MCPプロキシに接続');
     console.log('-'.repeat(80));
 
     client = new Client(
@@ -90,10 +74,18 @@ async function testGoMarbleViaProxy() {
       }
     );
 
+    // StdioClientTransportに正しくコマンドを渡す
     const transport = new StdioClientTransport({
-      command: proxyProcess
+      command: 'node',
+      args: [
+        proxyPath,
+        'GoMarble Facebook Ads',
+        GOMARBLE_SSE_URL,
+        GOMARBLE_API_KEY
+      ]
     });
 
+    console.log('プロキシを起動して接続中...');
     await client.connect(transport);
     console.log('✅ MCPプロキシに接続しました\n');
 
@@ -236,11 +228,6 @@ async function testGoMarbleViaProxy() {
       } catch (err) {
         console.error('⚠️ クライアント切断エラー:', err.message);
       }
-    }
-
-    if (proxyProcess) {
-      proxyProcess.kill();
-      console.log('✅ プロキシプロセスを終了しました');
     }
   }
 }
