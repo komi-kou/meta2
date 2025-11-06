@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        /* alerts.ejsと同じスタイルを使用 */
+        .main-content {
+            padding: 20px;
+            background: #f8fafc;
+        }
+        
+        .page-header-section {
+            margin-bottom: 20px;
+        }
+        
+        .alert-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 20px;
+        }
+        
+        .alert-header h1 {
+            color: #1f2937;
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .alert-status {
+            display: flex;
+            gap: 15px;
+            font-size: 14px;
+            color: #6b7280;
+            flex-shrink: 0;
+            text-align: right;
+        }
+        
+        .alert-section {
+            margin-bottom: 30px;
+        }
+        
+        .alert-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alert-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #10b981;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+        }
+        
+        .alert-card.critical {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .alert-card.warning {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        
+        .alert-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .alert-type {
+            font-size: 16px;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .alert-time {
+            font-size: 12px;
+            color: #6b7280;
+        }
+        
+        .alert-message {
+            color: #374151;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .no-alerts {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            padding: 40px 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 2px dashed #d1d5db;
+        }
+        
+        .main-alert-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-height: 200px;
+        }
+
+        .main-alert-section h2 {
+            margin: 0 0 20px 0;
+            color: #374151;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 確認事項特有のスタイル */
+        .alert-section-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .alert-check-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .check-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 3px solid #10b981;
+        }
+
+        .check-item-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .check-priority {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .check-title {
+            font-weight: 600;
+            color: #374151;
+            flex: 1;
+            margin-left: 12px;
+        }
+
+        .check-description {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .metric-label {
+            display: inline-block;
+            background: #e5e7eb;
+            color: #374151;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- サイドバー -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Meta広告レポート</h3>
+        </div>
+        <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">ダッシュボード</a>
+                <a href="/campaigns" class="nav-item">📊 キャンペーン管理</a>
+                <a href="/ad-performance" class="nav-item">🎯 広告パフォーマンス</a>
+                <a href="/audience-analysis" class="nav-item">👥 オーディエンス分析</a>
+                <a href="/multi-account" class="nav-item">🔄 マルチアカウント</a>
+                <a href="/budget-scheduling" class="nav-item">⏰ 予算スケジューリング</a>
+                <a href="/alerts" class="nav-item" id="alerts-link">アラート内容</a>
+                <a href="/alert-history" class="nav-item">アラート履歴</a>
+                <a href="/improvement-tasks" class="nav-item active">確認事項</a>
+                <a href="/improvement-strategies" class="nav-item">改善施策</a>
+            
+            <div class="sidebar-footer" style="position: absolute; bottom: 20px; left: 0; right: 0; padding: 0 20px;">
+                <form action="/logout" method="POST" style="margin: 0;">
+                    <button type="submit" class="nav-item" style="
+                        display: block;
+                        width: 100%;
+                        padding: 12px 20px;
+                        background: rgba(231, 76, 60, 0.1);
+                        color: #e74c3c;
+                        border: 1px solid rgba(231, 76, 60, 0.2);
+                        border-radius: 5px;
+                        text-align: left;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        font-size: 14px;
+                        font-weight: 500;
+                    " onmouseover="this.style.background='rgba(231, 76, 60, 0.2)'" onmouseout="this.style.background='rgba(231, 76, 60, 0.1)'">
+                        🚪 ログアウト
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    <div class="main-content">
+        <div class="page-header-section">
+            <div class="alert-header">
+                <h1>📋 確認事項</h1>
+                <div class="alert-status">
+                    <span>📊 サーバーから渡された確認事項数: <%= checkItems ? checkItems.length : 0 %>件</span>
+                    <span>アクティブアラート: <span id="active-count"><%= checkItems ? checkItems.filter((item, index, arr) => arr.findIndex(i => i.metric === item.metric) === index).length : 0 %></span>件</span>
+                    <span>最終チェック: <span id="last-check"><%= new Date().toLocaleString('ja-JP') %></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-section main-alert-section">
+            <h2>📋 確認が必要な項目</h2>
+            <div id="check-items-container">
+                <% if (checkItems && checkItems.length > 0) { %>
+                    <% 
+                    // checkItemsをメトリック別にグループ化
+                    const metricGroups = {};
+                    checkItems.forEach(item => {
+                        if (!metricGroups[item.metric]) {
+                            metricGroups[item.metric] = {
+                                metric: item.metric,
+                                message: item.message,
+                                items: []
+                            };
+                        }
+                        metricGroups[item.metric].items.push(item);
+                    });
+                    
+                    // メトリック名を表示用に変換
+                    function getMetricDisplayName(metric) {
+                        switch (metric) {
+                            case 'budget_rate': return '予算消化率';
+                            case 'daily_budget': return '日予算';
+                            case 'ctr': return 'CTR';
+                            case 'conversions': return 'CV';
+                            case 'cpm': 
+                            case 'cpm_increase': return 'CPM';
+                            case 'cpa':
+                            case 'cpa_rate': return 'CPA';
+                            default: return metric.toUpperCase();
+                        }
+                    }
+                    %>
+                    
+                    <% Object.values(metricGroups).forEach((group, groupIndex) => { %>
+                        <div class="alert-card <%= group.items[0].priority === 1 ? 'critical' : 'warning' %>">
+                            <div class="alert-card-header">
+                                <div class="alert-type">
+                                    <span class="metric-label"><%= getMetricDisplayName(group.metric) %></span>
+                                    <%= group.message %>
+                                </div>
+                                <div class="alert-time"><%= new Date().toLocaleString('ja-JP') %></div>
+                            </div>
+                            
+                            <div class="alert-section-header">📋 確認事項</div>
+                            <div class="alert-check-items">
+                                <% group.items.forEach(item => { %>
+                                    <div class="check-item">
+                                        <div class="check-item-header">
+                                            <div class="check-priority">優先度 <%= item.priority %></div>
+                                            <div class="check-title"><%= item.title %></div>
+                                        </div>
+                                        <% if (item.description) { %>
+                                            <div class="check-description">
+                                                <% item.description.split('\n').forEach(line => { %>
+                                                    <div><%= line %></div>
+                                                <% }); %>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="no-alerts">確認が必要な項目はありません ✅</div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script src="/improvement-tasks.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アラート履歴 - Meta広告ダッシュボード</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .alert-history-page {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        .header-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .history-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .history-section h3 {
+            margin: 0 0 25px 0;
+            color: #333;
+            font-size: 1.5em;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-history-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .no-history-icon {
+            font-size: 48px;
+            opacity: 0.6;
+        }
+
+        .no-history p {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .alert-level {
+            font-size: 1.2em;
+            min-width: 30px;
+        }
+
+        .alert-level-high {
+            color: #dc3545;
+        }
+
+        .alert-level-medium {
+            color: #ffc107;
+        }
+
+        .alert-level-low {
+            color: #28a745;
+        }
+
+        .alert-metric {
+            background: #e9ecef;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .alert-message {
+            flex: 1;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .alert-timestamp {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .alert-history-page {
+                padding: 15px;
+            }
+
+            .page-header {
+                padding: 20px;
+            }
+
+            .page-header h2 {
+                font-size: 1.8em;
+            }
+
+            .history-section {
+                padding: 20px;
+            }
+
+            .alert-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .alert-timestamp {
+                text-align: left;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- サイドバー（ダッシュボードと完全統一） -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h3>Meta広告レポート</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="nav-item">ダッシュボード</a>
+                <a href="/campaigns" class="nav-item">📊 キャンペーン管理</a>
+                <a href="/ad-performance" class="nav-item">🎯 広告パフォーマンス</a>
+                <a href="/audience-analysis" class="nav-item">👥 オーディエンス分析</a>
+                <a href="/multi-account" class="nav-item">🔄 マルチアカウント</a>
+                <a href="/budget-scheduling" class="nav-item">⏰ 予算スケジューリング</a>
+                <a href="/alerts" class="nav-item" id="alerts-link">アラート内容</a>
+                <a href="/alert-history" class="nav-item active">アラート履歴</a>
+                <a href="/improvement-tasks" class="nav-item">確認事項</a>
+                <a href="/improvement-strategies" class="nav-item">改善施策</a>
+            
+            <div class="sidebar-footer" style="position: absolute; bottom: 20px; left: 0; right: 0; padding: 0 20px;">
+                <form action="/logout" method="POST" style="margin: 0;">
+                    <button type="submit" class="nav-item" style="
+                        display: block;
+                        width: 100%;
+                        padding: 12px 20px;
+                        background: rgba(231, 76, 60, 0.1);
+                        color: #e74c3c;
+                        border: 1px solid rgba(231, 76, 60, 0.2);
+                        border-radius: 5px;
+                        text-align: left;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                        font-size: 14px;
+                        font-weight: 500;
+                    " onmouseover="this.style.background='rgba(231, 76, 60, 0.2)'" onmouseout="this.style.background='rgba(231, 76, 60, 0.1)'">
+                        🚪 ログアウト
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <main class="main-content">
+
+    <div class="alert-history-page">
+        <div class="page-header">
+            <h2>📋 アラート履歴</h2>
+            <div class="header-info">
+                <span>📊 サーバーから渡されたアラート履歴数: <%= alerts ? alerts.length : 0 %>件</span>
+                <span>総数: <span id="total-count"><%= alerts ? alerts.length : 0 %></span>件</span>
+                <span>アクティブ: <span id="active-count"><%= alerts ? alerts.filter(a => a.status === 'active').length : 0 %></span>件</span>
+                <span>解決済み: <span id="resolved-count"><%= alerts ? alerts.filter(a => a.status === 'resolved').length : 0 %></span>件</span>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <h3>過去30日間のアラート履歴</h3>
+            
+            <div id="alert-history-container">
+                <% if (alerts && alerts.length > 0) { %>
+                    <% 
+                    // 日付別にグループ化
+                    const groupedByDate = {};
+                    alerts.forEach(alert => {
+                        const date = new Date(alert.timestamp).toLocaleDateString('ja-JP');
+                        if (!groupedByDate[date]) {
+                            groupedByDate[date] = [];
+                        }
+                        groupedByDate[date].push(alert);
+                    });
+                    
+                    function getLevelClass(level) {
+                        return level === 'high' ? 'level-critical' : level === 'medium' ? 'level-warning' : 'level-info';
+                    }
+                    
+                    function getLevelIcon(level) {
+                        return level === 'high' ? '🔴' : level === 'medium' ? '⚠️' : 'ℹ️';
+                    }
+                    
+                    function getStatusDisplayName(status) {
+                        return status === 'active' ? 'アクティブ' : status === 'resolved' ? '解決済み' : '確認済み';
+                    }
+                    %>
+                    
+                    <% Object.entries(groupedByDate).sort(([a], [b]) => new Date(b) - new Date(a)).forEach(([date, dayAlerts]) => { %>
+                        <div class="date-section">
+                            <h4 class="date-header"><%= date %> (<%= dayAlerts.length %>件)</h4>
+                            <div class="date-alerts">
+                                <% dayAlerts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).forEach(alert => { %>
+                                    <div class="history-card <%= getLevelClass(alert.level) %>">
+                                        <div class="card-header">
+                                            <div class="alert-info">
+                                                <span class="level-icon"><%= getLevelIcon(alert.level) %></span>
+                                                <span class="metric-badge"><%= alert.metric %></span>
+                                                <span class="alert-time"><%= new Date(alert.timestamp).toLocaleTimeString('ja-JP') %></span>
+                                            </div>
+                                            <div class="alert-status status-<%= alert.status %>"><%= getStatusDisplayName(alert.status) %></div>
+                                        </div>
+                                        <div class="alert-message"><%= alert.message %></div>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <div class="no-history">📋 アラート履歴はありません</div>
+                <% } %>
+            </div>
+        </div>
+        </main>
+    </div>
+
+
+    <script src="/alert-history.js"></script>
+</body>
+</html> 
